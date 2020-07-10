@@ -13,7 +13,7 @@ public class Item {
     }
 
     public <T extends PlayerEvent> void addAction(final ActionType<T> type, final ItemAction<T> action) {
-        action.execute(type.getEvent());
+        new ItemActionsManager().registerItemAction(action);
     }
 
     public ItemStack getItemStack() {

@@ -1,4 +1,4 @@
 package me.katsumag.itemactionslib.events.listeners;
 
-public class PlayerJumpClickEventListener {
+public class PlayerToggleSneakEventListener {
 }

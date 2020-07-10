@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.Objects;
+
 public class Utils {
 
     public static boolean isJumping(Player p) {
@@ -18,7 +20,7 @@ public class Utils {
             if (p.hasPotionEffect(PotionEffectType.JUMP))
             {
                 // If player has jump potion add it to jump velocity
-                jumpVelocity += (double) ((float) p.getPotionEffect(PotionEffectType.JUMP).getAmplifier() + 1) * 0.1F;
+                jumpVelocity += (double) ((float) Objects.requireNonNull(p.getPotionEffect(PotionEffectType.JUMP)).getAmplifier() + 1) * 0.1F;
             }
             // Check if player is not on ladder and if jump velocity calculated is equals to player Y velocity
             return p.getLocation().getBlock().getType() != Material.LADDER && Double.compare(velocity.getY(), jumpVelocity) == 0;

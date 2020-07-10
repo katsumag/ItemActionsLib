@@ -1,4 +1,4 @@
-package me.katsumag.itemactionslib.events.listeners;
+package me.katsumag.itemactionslib.events.listeners.callers;
 
 import me.katsumag.itemactionslib.events.custom.PlayerJumpEvent;
 import org.bukkit.Bukkit;
