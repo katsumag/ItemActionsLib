@@ -10,6 +10,9 @@ public class ExampleMain extends JavaPlugin {
 
     public ExampleMain() {
 
+        /*So every ActionType<T extends ListenableEvent> should have it's own listener.
+        Contact DM if you want more explanation //Conclure#0001
+        */
         manager.register(ActionType.LEFT_CLICK_BLOCK, new LeftClickBlockListener());
 
         Item item = manager.newItem(Material.ITEM_FRAME).addAction(ActionType.LEFT_CLICK_BLOCK, event -> {
