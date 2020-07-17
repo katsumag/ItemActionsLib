@@ -15,7 +15,10 @@ public class PlayerJumpEventListener implements Listener {
     @EventHandler
     public void onPlayerJump(PlayerJumpEvent e) {
 
-        List<ItemAction> actionList = manager.
+        manager.getItemActions().forEach((itemAction, actionType) -> {
+            if (!(actionType.getEvent().equals(PlayerJumpEvent.class))) return;
+
+        });
 
     }
 

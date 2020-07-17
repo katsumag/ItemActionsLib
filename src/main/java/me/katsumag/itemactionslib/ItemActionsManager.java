@@ -1,25 +1,25 @@
 package me.katsumag.itemactionslib;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.bukkit.event.player.PlayerEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemActionsManager {
 
-    private static final List<ItemAction> ITEM_ACTION_LIST = new ArrayList<>();
+    private static final Map<ItemAction<? extends PlayerEvent>, ActionType<? extends PlayerEvent>> ACTION_MAP = new HashMap<>();
 
-    public <T extends PlayerEvent> void registerItemAction(ItemAction<T> action) {
-        ITEM_ACTION_LIST.add(action);
+    public <T extends PlayerEvent> void registerItemAction(ActionType<T> type, ItemAction<T> action) {
+        ACTION_MAP.put(action, type);
     }
 
     public <T extends PlayerEvent> void removeItemAction(ItemAction<T> action) {
-        ITEM_ACTION_LIST.remove(action);
+        ACTION_MAP.remove(action);
     }
 
-    protected ImmutableList<ItemAction> getItemActions() {
-        return ImmutableList.copyOf(ITEM_ACTION_LIST);
+    public ImmutableMap<ItemAction<? extends PlayerEvent>, ActionType<? extends PlayerEvent>> getItemActions() {
+        return ImmutableMap.copyOf(ACTION_MAP);
     }
 
 }
