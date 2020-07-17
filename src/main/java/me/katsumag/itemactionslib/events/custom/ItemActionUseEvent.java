@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ItemActionUseEvent extends Event implements Cancellable {
 
-    private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLER_LIST = new HandlerList();
     private final ActionType actionType;
     private final Item item;
     private boolean cancelled = false;
@@ -27,11 +27,11 @@ public class ItemActionUseEvent extends Event implements Cancellable {
 
     @Override
     public HandlerList getHandlers() {
-        return handlers;
+        return HANDLER_LIST;
     }
 
-    public HandlerList getHandlerList() {
-        return handlers;
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
     }
 
     @Override

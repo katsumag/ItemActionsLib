@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class PlayerJumpClickEvent extends PlayerEvent {
 
-    private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLER_LIST = new HandlerList();
     private final UUID player;
     private final Action action;
 
@@ -23,11 +23,11 @@ public class PlayerJumpClickEvent extends PlayerEvent {
 
     @Override
     public HandlerList getHandlers() {
-        return handlers;
+        return HANDLER_LIST;
     }
 
-    public HandlerList getHandlerList() {
-        return handlers;
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
     }
 
     @Override

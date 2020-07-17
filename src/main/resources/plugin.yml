@@ -1,4 +1,4 @@
-name: ItemActionsLib
-version: @version@
-main: me.katsumag.itemactionslib.ItemActionsLib
+name: ${name}
+version: ${version}
+main: ${main}
 api-version: 1.15.2

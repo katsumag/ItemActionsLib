@@ -1,12 +1,13 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
-apply plugin: 'java'
+plugins {
+    id 'java'
+}
 
 group = 'me.katsumag'
 version = '1.0'
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+java {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
@@ -26,6 +27,9 @@ dependencies {
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        filter ReplaceTokens, tokens: [version: version]
+        include('plugin.yml')
+        expand('name': name,
+                'version': version,
+                'main': 'me.katsumag.itemactionslib.ItemActionsLib')
     }
 }

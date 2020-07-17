@@ -1,19 +1,15 @@
-package me.katsumag.itemactionslib.events.custom;
+package me.katsumag.itemactionslib.conclure.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import java.util.UUID;
-
-public class PlayerJumpEvent extends PlayerEvent {
+public class LeftClickBlockEvent extends PlayerEvent implements ListenableEvent {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
-    private final UUID player;
 
-    public PlayerJumpEvent(final Player p) {
-        super(p);
-        this.player = p.getUniqueId();
+    public LeftClickBlockEvent(Player who) {
+        super(who);
     }
 
     @Override
@@ -23,9 +19,5 @@ public class PlayerJumpEvent extends PlayerEvent {
 
     public static HandlerList getHandlerList() {
         return HANDLER_LIST;
-    }
-
-    public UUID getPlayerUUID() {
-        return this.player;
     }
 }
