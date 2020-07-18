@@ -14,12 +14,24 @@ public abstract class AbstractListener<T extends ListenableEvent> implements Lis
 
     protected Multimap<UUID, Action<T>> actions = HashMultimap.create();
 
+    public void addAction(Action<T> action, Item item) {
+        actions.put(item.getId(), action);
+    }
+
     public void addAction(Action<T> action, UUID id) {
         actions.put(id, action);
     }
 
     public void clearActions(Item item) { actions.removeAll( item.getId() ); }
 
-    public void removeActions(ActionType<T> type, Item item) {actions.entries().removeIf(uuidActionEntry -> uuidActionEntry.getValue().getClass().isInstance(type));}
+    public void clearActions(UUID id) { actions.removeAll( id ); }
+
+    public void removeActions(ActionType<T> type, Item item) {
+        actions.entries().removeIf(uuidActionEntry -> uuidActionEntry.getKey() == item.getId() && uuidActionEntry.getValue().getClass().isInstance(type));
+    }
+
+    public void removeActions(ActionType<T> type, UUID id) {
+        actions.entries().removeIf(uuidActionEntry -> uuidActionEntry.getKey() == id && uuidActionEntry.getValue().getClass().isInstance(type));
+    }
 
 }

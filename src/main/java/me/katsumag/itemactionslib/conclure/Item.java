@@ -25,12 +25,16 @@ public class Item implements Supplier<ItemStack> {
         return this;
     }
 
-    <T extends ListenableEvent> void removeActions(ActionType<T> type) {
+    public <T extends ListenableEvent> void removeActions(ActionType<T> type) {
         manager.removeActions(type, this);
     }
-    
-    void clearActions(Item item) {
+
+    public void clearActions(Item item) {
         manager.clearActions(item);
+    }
+
+    public void clearActions(UUID id) {
+        manager.clearActions(id);
     }
 
     @Override
