@@ -20,46 +20,48 @@ public class ItemActionManager {
     }
 
     public <T extends ListenableEvent> void register(ActionType<T> type, AbstractListener<T> listener) {
-        if (manager.get(type) == null) {
+        if (this.manager.get(type) == null) {
             throw new IllegalStateException("Value for ActionType is already registered.");
         }
-        manager.put(type, listener);
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        this.manager.put(type, listener);
+        this.plugin.getServer().getPluginManager().registerEvents(listener, this.plugin);
 
-    }
-
-    //This can we little wack as we don't know if the type is the same from the map.
-    @SuppressWarnings("unchecked")
-    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, UUID id) {
-        ((AbstractListener<T>)manager.get(type)).addAction(action, id);
-    }
-
-    <T extends ListenableEvent> void removeActions(ActionType<T> type, Item item) {
-        ((AbstractListener<T>)manager.get(type)).removeActions(type, item);
-    }
-
-    void clearActions(Item item) {
-        manager.forEach((actionType, abstractListener) -> abstractListener.clearActions(item));
-    }
-
-    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, Item item) {
-        ((AbstractListener<T>)manager.get(type)).addAction(action, item.getId());
-    }
-
-    <T extends ListenableEvent> void removeActions(ActionType<T> type, UUID id) {
-        ((AbstractListener<T>)manager.get(type)).removeActions(type, id);
-    }
-
-    void clearActions(UUID id) {
-        manager.forEach((actionType, abstractListener) -> abstractListener.clearActions(id));
     }
 
     public Item newItem(ItemStack itemStack) {
+        Utils.notNull(itemStack);
         return new Item(this, itemStack);
     }
 
     public Item newItem(Material material) {
         Utils.notNull(material);
         return this.newItem(new ItemStack(material));
+    }
+
+    @SuppressWarnings("unchecked")
+    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, UUID uuid) {
+        Utils.notNull(type);
+        ((AbstractListener<T>)this.manager.get(type)).addAction(action, uuid);
+    }
+
+    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, Item item) {
+        this.addAction(type, action, item.getUniqueId());
+    }
+
+    <T extends ListenableEvent> void removeActions(ActionType<T> type, UUID uuid) {
+        Utils.notNull(type);
+        this.manager.get(type).clearActions(uuid);
+    }
+
+    <T extends ListenableEvent> void removeActions(ActionType<T> type, Item item) {
+        this.removeActions(type, item.getUniqueId());
+    }
+
+    void clearActions(UUID uuid) {
+        this.manager.values().forEach($ -> $.clearActions(uuid));
+    }
+
+    void clearActions(Item item) {
+        this.clearActions(item.getUniqueId());
     }
 }

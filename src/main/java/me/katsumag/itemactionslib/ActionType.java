@@ -33,7 +33,7 @@ public class ActionType<T extends ListenableEvent> {
     }
 
     public Class<T> getEvent() {
-        return event;
+        return this.event;
     }
 
 }

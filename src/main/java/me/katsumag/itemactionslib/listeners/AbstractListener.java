@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import me.katsumag.itemactionslib.Action;
 import me.katsumag.itemactionslib.ActionType;
 import me.katsumag.itemactionslib.Item;
+import me.katsumag.itemactionslib.Utils;
 import me.katsumag.itemactionslib.event.ListenableEvent;
 import org.bukkit.event.Listener;
 
@@ -14,24 +15,24 @@ public abstract class AbstractListener<T extends ListenableEvent> implements Lis
 
     protected Multimap<UUID, Action<T>> actions = HashMultimap.create();
 
+    public void addAction(Action<T> action, UUID uuid) {
+        Utils.notNull(action, uuid);
+        this.actions.put(uuid, action);
+    }
+
     public void addAction(Action<T> action, Item item) {
-        actions.put(item.getId(), action);
+        Utils.notNull(item);
+        this.addAction(action, item.getUniqueId());
     }
 
-    public void addAction(Action<T> action, UUID id) {
-        actions.put(id, action);
+    public void clearActions(UUID uuid) {
+        Utils.notNull(uuid);
+        this.actions.removeAll(uuid);
     }
 
-    public void clearActions(Item item) { actions.removeAll( item.getId() ); }
-
-    public void clearActions(UUID id) { actions.removeAll( id ); }
-
-    public void removeActions(ActionType<T> type, Item item) {
-        actions.entries().removeIf(uuidActionEntry -> uuidActionEntry.getKey() == item.getId() && uuidActionEntry.getValue().getClass().isInstance(type));
-    }
-
-    public void removeActions(ActionType<T> type, UUID id) {
-        actions.entries().removeIf(uuidActionEntry -> uuidActionEntry.getKey() == id && uuidActionEntry.getValue().getClass().isInstance(type));
+    public void clearActions(Item item) {
+        Utils.notNull(item);
+        this.clearActions(item.getUniqueId());
     }
 
 }

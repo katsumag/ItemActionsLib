@@ -1,5 +1,6 @@
 package me.katsumag.itemactionslib;
 
+import com.google.common.collect.Lists;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
@@ -30,6 +31,10 @@ public class Utils {
 
     public static <T> void notNull(T t) {
         Objects.requireNonNull(t, "Parameter " + t.getClass().getTypeName() + " may not be null.");
+    }
+
+    public static <T> void notNull(T t, T... ts) {
+        Lists.asList(t, ts).forEach(Utils::notNull);
     }
 
 }
