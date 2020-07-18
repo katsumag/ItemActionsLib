@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class ItemActionManager {
 
@@ -29,8 +30,8 @@ public class ItemActionManager {
 
     //This can we little wack as we don't know if the type is the same from the map.
     @SuppressWarnings("unchecked")
-    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action) {
-        ((AbstractListener<T>)manager.get(type)).addAction(action);
+    <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, UUID id) {
+        ((AbstractListener<T>)manager.get(type)).addAction(action, id);
     }
 
     public Item newItem(ItemStack itemStack) {
