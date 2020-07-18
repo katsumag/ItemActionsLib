@@ -14,6 +14,8 @@ public class ExampleMain extends JavaPlugin {
         Contact DM if you want more explanation //Conclure#0001
         */
 
+        manager.register(ActionType.CLICK, new ClickEventListener());
+        manager.register(ActionType.LEFT_CLICK, new LeftClickEventListener());
         manager.register(ActionType.LEFT_CLICK_AIR, new LeftClickAirEventListener());
         manager.register(ActionType.LEFT_CLICK_BLOCK, new LeftClickBlockListener());
         manager.register(ActionType.RIGHT_CLICK_AIR, new RightClickAirEventListener());
