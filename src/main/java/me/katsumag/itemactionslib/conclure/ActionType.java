@@ -19,17 +19,14 @@ public class ActionType<T extends ListenableEvent> {
     public static final ActionType<ShiftRightClickBlockEvent> SHIFT_RIGHT_CLICK_BLOCK = new ActionType<>(ShiftRightClickBlockEvent.class);
 
     public static final ActionType<PlayerShiftEvent> PLAYER_SHIFT = new ActionType<>(PlayerShiftEvent.class);
-    /*public static final ActionType<PlayerInteractEvent> SHIFT_LEFT = new ActionType<>(PlayerInteractEvent.class);
-    public static final ActionType<PlayerInteractEvent> SHIFT_RIGHT = new ActionType<>(PlayerInteractEvent.class);
+    public static final ActionType<PlayerJumpEvent> PLAYER_JUMP = new ActionType<>(PlayerJumpEvent.class);
 
-    public static final ActionType<PlayerJumpEvent> JUMP = new ActionType<>(PlayerJumpEvent.class);
-    public static final ActionType<PlayerJumpEvent> SHIFT_JUMP = new ActionType<>(PlayerJumpEvent.class);
+    /*public static final ActionType<PlayerJumpEvent> SHIFT_JUMP = new ActionType<>(PlayerJumpEvent.class);
 
     public static final ActionType<PlayerJumpClickEvent> SHIFT_JUMP_RIGHT = new ActionType<>(PlayerJumpClickEvent.class);
     public static final ActionType<PlayerJumpClickEvent> SHIFT_JUMP_LEFT = new ActionType<>(PlayerJumpClickEvent.class);
 
-    public static final ActionType<PlayerToggleSprintEvent> SPRINT = new ActionType<>(PlayerToggleSprintEvent.class);
-    public static final ActionType<PlayerToggleSneakEvent> SNEAK = new ActionType<>(PlayerToggleSneakEvent.class);*/
+    public static final ActionType<PlayerToggleSprintEvent> SPRINT = new ActionType<>(PlayerToggleSprintEvent.class);*/
 
     private final Class<T> event;
 

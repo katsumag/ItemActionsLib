@@ -28,6 +28,7 @@ public class ExampleMain extends JavaPlugin {
         manager.register(ActionType.SHIFT_RIGHT_CLICK_AIR, new ShiftRightClickAirEventListener());
         manager.register(ActionType.SHIFT_RIGHT_CLICK_BLOCK, new ShiftRightClickBlockEventListener());
         manager.register(ActionType.PLAYER_SHIFT, new PlayerShiftEventListener());
+        manager.register(ActionType.PLAYER_JUMP, new PlayerJumpEventListener());
 
         Item item = manager.newItem(Material.ITEM_FRAME).addAction(ActionType.LEFT_CLICK_BLOCK, event -> {
             System.out.println(event.getEventName());
