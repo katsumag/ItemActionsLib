@@ -30,6 +30,7 @@ public class ExampleMain extends JavaPlugin {
         manager.register(ActionType.PLAYER_SHIFT, new PlayerShiftEventListener());
         manager.register(ActionType.PLAYER_JUMP, new PlayerJumpEventListener());
         manager.register(ActionType.PLAYER_SHIFT_JUMP, new PlayerShiftJumpEventListener());
+        manager.register(ActionType.PLAYER_SPRINT, new PlayerSprintEventListener());
 
         Item item = manager.newItem(Material.ITEM_FRAME).addAction(ActionType.LEFT_CLICK_BLOCK, event -> {
             System.out.println(event.getEventName());
