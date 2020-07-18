@@ -28,4 +28,8 @@ public class Utils {
         return false;
     }
 
+    public static <T> void notNull(T t) {
+        Objects.requireNonNull(t, "Parameter " + t.getClass().getTypeName() + " may not be null.");
+    }
+
 }

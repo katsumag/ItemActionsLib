@@ -1,23 +1,47 @@
 package me.katsumag.itemactionslib;
 
-import org.bukkit.event.player.PlayerEvent;
+import me.katsumag.itemactionslib.event.ListenableEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class Item {
+import java.util.UUID;
+import java.util.function.Supplier;
 
-    private final ItemStack item;
+public class Item implements Supplier<ItemStack> {
 
+    private final ItemStack itemStack;
+    private final ItemActionManager manager;
+    private final UUID id = UUID.randomUUID();
 
-    public Item(ItemStack item) {
-        this.item = item;
+    Item(ItemActionManager manager, ItemStack itemStack) {
+        Utils.notNull(manager);
+        this.manager = manager;
+        Utils.notNull(itemStack);
+        this.itemStack = itemStack;
     }
 
-    public <T extends PlayerEvent> void addAction(final ActionType<T> type, final ItemAction<T> action) {
-        new ItemActionsManager().registerItemAction(type, action);
+    public <T extends ListenableEvent> Item addAction(ActionType<T> type, Action<T> action) {
+        manager.addAction(type, action, id);
+        return this;
     }
 
-    public ItemStack getItemStack() {
-        return item;
+    public <T extends ListenableEvent> void removeActions(ActionType<T> type) {
+        manager.removeActions(type, this);
     }
 
+    public void clearActions(Item item) {
+        manager.clearActions(item);
+    }
+
+    public void clearActions(UUID id) {
+        manager.clearActions(id);
+    }
+
+    @Override
+    public ItemStack get() {
+        return itemStack;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 }
