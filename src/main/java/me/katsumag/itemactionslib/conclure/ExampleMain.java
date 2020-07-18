@@ -21,6 +21,7 @@ public class ExampleMain extends JavaPlugin {
         manager.register(ActionType.LEFT_CLICK_BLOCK, new LeftClickBlockListener());
         manager.register(ActionType.RIGHT_CLICK_AIR, new RightClickAirEventListener());
         manager.register(ActionType.RIGHT_CLICK_BLOCK, new RightClickBlockEventListener());
+        manager.register(ActionType.SHIFT_LEFT_CLICK, new ShiftLeftClickEventListener());
         manager.register(ActionType.SHIFT_LEFT_CLICK_AIR, new ShiftLeftClickAirEventListener());
         manager.register(ActionType.SHIFT_LEFT_CLICK_BLOCK, new ShiftLeftClickBlockEventListener());
 
