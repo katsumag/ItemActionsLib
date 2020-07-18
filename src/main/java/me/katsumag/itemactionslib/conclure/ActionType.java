@@ -6,6 +6,7 @@ public class ActionType<T extends ListenableEvent> {
 
     public static final ActionType<ClickEvent> CLICK = new ActionType<>(ClickEvent.class);
     public static final ActionType<LeftClickEvent> LEFT_CLICK = new ActionType<>(LeftClickEvent.class);
+    public static final ActionType<RightClickEvent> RIGHT_CLICK = new ActionType<>(RightClickEvent.class);
     public static final ActionType<LeftClickAirEvent> LEFT_CLICK_AIR = new ActionType<>(LeftClickAirEvent.class);
     public static final ActionType<LeftClickBlockEvent> LEFT_CLICK_BLOCK = new ActionType<>(LeftClickBlockEvent.class);
     public static final ActionType<RightClickAirEvent> RIGHT_CLICK_AIR = new ActionType<>(RightClickAirEvent.class);
