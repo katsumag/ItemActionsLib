@@ -20,10 +20,9 @@ public class ActionType<T extends ListenableEvent> {
 
     public static final ActionType<PlayerShiftEvent> PLAYER_SHIFT = new ActionType<>(PlayerShiftEvent.class);
     public static final ActionType<PlayerJumpEvent> PLAYER_JUMP = new ActionType<>(PlayerJumpEvent.class);
+    public static final ActionType<PlayerShiftJumpEvent> PLAYER_SHIFT_JUMP = new ActionType<>(PlayerShiftJumpEvent.class);
 
-    /*public static final ActionType<PlayerJumpEvent> SHIFT_JUMP = new ActionType<>(PlayerJumpEvent.class);
-
-    public static final ActionType<PlayerJumpClickEvent> SHIFT_JUMP_RIGHT = new ActionType<>(PlayerJumpClickEvent.class);
+    /*public static final ActionType<PlayerJumpClickEvent> SHIFT_JUMP_RIGHT = new ActionType<>(PlayerJumpClickEvent.class);
     public static final ActionType<PlayerJumpClickEvent> SHIFT_JUMP_LEFT = new ActionType<>(PlayerJumpClickEvent.class);
 
     public static final ActionType<PlayerToggleSprintEvent> SPRINT = new ActionType<>(PlayerToggleSprintEvent.class);*/
