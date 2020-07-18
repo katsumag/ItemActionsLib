@@ -1,6 +1,6 @@
 package me.katsumag.itemactionslib.conclure;
 
-import me.katsumag.itemactionslib.conclure.listeners.LeftClickBlockListener;
+import me.katsumag.itemactionslib.conclure.listeners.*;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,7 +13,13 @@ public class ExampleMain extends JavaPlugin {
         /*So every ActionType<T extends ListenableEvent> should have it's own listener.
         Contact DM if you want more explanation //Conclure#0001
         */
+
+        manager.register(ActionType.LEFT_CLICK_AIR, new LeftClickAirEventListener());
         manager.register(ActionType.LEFT_CLICK_BLOCK, new LeftClickBlockListener());
+        manager.register(ActionType.RIGHT_CLICK_AIR, new RightClickAirEventListener());
+        manager.register(ActionType.RIGHT_CLICK_BLOCK, new RightClickBlockEventListener());
+        manager.register(ActionType.SHIFT_LEFT_CLICK_AIR, new ShiftLeftClickAirEventListener());
+        manager.register(ActionType.SHIFT_LEFT_CLICK_BLOCK, new ShiftLeftClickBlockEventListener());
 
         Item item = manager.newItem(Material.ITEM_FRAME).addAction(ActionType.LEFT_CLICK_BLOCK, event -> {
             System.out.println(event.getEventName());

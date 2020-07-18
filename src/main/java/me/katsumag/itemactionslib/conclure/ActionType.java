@@ -1,19 +1,16 @@
 package me.katsumag.itemactionslib.conclure;
 
-import me.katsumag.itemactionslib.conclure.event.LeftClickBlockEvent;
-import me.katsumag.itemactionslib.conclure.event.ListenableEvent;
-import me.katsumag.itemactionslib.events.custom.PlayerJumpClickEvent;
-import me.katsumag.itemactionslib.events.custom.PlayerJumpEvent;
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
+import me.katsumag.itemactionslib.conclure.event.*;
 
 public class ActionType<T extends ListenableEvent> {
 
+    public static final ActionType<LeftClickAirEvent> LEFT_CLICK_AIR = new ActionType<>(LeftClickAirEvent.class);
     public static final ActionType<LeftClickBlockEvent> LEFT_CLICK_BLOCK = new ActionType<>(LeftClickBlockEvent.class);
-    /*public static final ActionType<PlayerInteractEvent> RIGHT_CLICK = new ActionType<>(PlayerInteractEvent.class);
-    public static final ActionType<PlayerInteractEvent> SHIFT_LEFT = new ActionType<>(PlayerInteractEvent.class);
+    public static final ActionType<RightClickAirEvent> RIGHT_CLICK_AIR = new ActionType<>(RightClickAirEvent.class);
+    public static final ActionType<RightClickBlockEvent> RIGHT_CLICK_BLOCK = new ActionType<>(RightClickBlockEvent.class);
+    public static final ActionType<ShiftLeftClickAirEvent> SHIFT_LEFT_CLICK_AIR = new ActionType<>(ShiftLeftClickAirEvent.class);
+    public static final ActionType<ShiftLeftClickBlockEvent> SHIFT_LEFT_CLICK_BLOCK = new ActionType<>(ShiftLeftClickBlockEvent.class);
+    /*public static final ActionType<PlayerInteractEvent> SHIFT_LEFT = new ActionType<>(PlayerInteractEvent.class);
     public static final ActionType<PlayerInteractEvent> SHIFT_RIGHT = new ActionType<>(PlayerInteractEvent.class);
 
     public static final ActionType<PlayerJumpEvent> JUMP = new ActionType<>(PlayerJumpEvent.class);
