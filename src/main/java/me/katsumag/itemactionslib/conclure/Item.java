@@ -1,6 +1,7 @@
 package me.katsumag.itemactionslib.conclure;
 
 import me.katsumag.itemactionslib.conclure.event.ListenableEvent;
+import me.katsumag.itemactionslib.conclure.listeners.AbstractListener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -22,6 +23,14 @@ public class Item implements Supplier<ItemStack> {
     public <T extends ListenableEvent> Item addAction(ActionType<T> type, Action<T> action) {
         manager.addAction(type, action, id);
         return this;
+    }
+
+    <T extends ListenableEvent> void removeActions(ActionType<T> type) {
+        manager.removeActions(type, this);
+    }
+    
+    void clearActions(Item item) {
+        manager.clearActions(item);
     }
 
     @Override

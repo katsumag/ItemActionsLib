@@ -34,6 +34,14 @@ public class ItemActionManager {
         ((AbstractListener<T>)manager.get(type)).addAction(action, id);
     }
 
+    <T extends ListenableEvent> void removeActions(ActionType<T> type, Item item) {
+        ((AbstractListener<T>)manager.get(type)).removeActions(type, item);
+    }
+
+    void clearActions(Item item) {
+        manager.forEach((actionType, abstractListener) -> abstractListener.clearActions(item));
+    }
+
     public Item newItem(ItemStack itemStack) {
         return new Item(this, itemStack);
     }
