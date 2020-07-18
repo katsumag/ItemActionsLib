@@ -14,6 +14,7 @@ public class ActionType<T extends ListenableEvent> {
     public static final ActionType<ShiftLeftClickEvent> SHIFT_LEFT_CLICK = new ActionType<>(ShiftLeftClickEvent.class);
     public static final ActionType<ShiftLeftClickAirEvent> SHIFT_LEFT_CLICK_AIR = new ActionType<>(ShiftLeftClickAirEvent.class);
     public static final ActionType<ShiftLeftClickBlockEvent> SHIFT_LEFT_CLICK_BLOCK = new ActionType<>(ShiftLeftClickBlockEvent.class);
+    public static final ActionType<ShiftRightClickEvent> SHIFT_RIGHT_CLICK = new ActionType<>(ShiftRightClickEvent.class);
     /*public static final ActionType<PlayerInteractEvent> SHIFT_LEFT = new ActionType<>(PlayerInteractEvent.class);
     public static final ActionType<PlayerInteractEvent> SHIFT_RIGHT = new ActionType<>(PlayerInteractEvent.class);
 
