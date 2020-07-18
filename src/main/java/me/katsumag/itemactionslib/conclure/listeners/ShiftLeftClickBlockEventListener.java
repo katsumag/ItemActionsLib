@@ -1,6 +1,5 @@
 package me.katsumag.itemactionslib.conclure.listeners;
 
-import me.katsumag.itemactionslib.conclure.event.RightClickBlockEvent;
 import me.katsumag.itemactionslib.conclure.event.ShiftLeftClickBlockEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -14,7 +13,7 @@ public class ShiftLeftClickBlockEventListener extends AbstractListener<ShiftLeft
         if (e.hasBlock() && e.getAction() == Action.LEFT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             ShiftLeftClickBlockEvent event = new ShiftLeftClickBlockEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach(action -> action.perform(event));
+            actions.forEach((uuid, action) -> action.perform(event));
         }
     }
 

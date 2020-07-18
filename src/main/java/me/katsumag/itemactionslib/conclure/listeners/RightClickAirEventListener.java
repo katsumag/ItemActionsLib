@@ -13,7 +13,7 @@ public class RightClickAirEventListener extends AbstractListener<RightClickAirEv
         if (e.getAction() == Action.RIGHT_CLICK_AIR) {
             RightClickAirEvent event = new RightClickAirEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach(action -> action.perform(event));
+            actions.forEach((uuid, action) -> action.perform(event));
         }
     }
 

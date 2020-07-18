@@ -13,7 +13,7 @@ public class RightClickBlockEventListener extends AbstractListener<RightClickBlo
         if (e.hasBlock() && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             RightClickBlockEvent event = new RightClickBlockEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach(action -> action.perform(event));
+            actions.forEach((uuid, action) -> action.perform(event));
         }
     }
 
