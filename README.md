@@ -5,7 +5,7 @@ Authors: Katsumag, Conclure
 
 ItemActionsLib is a simple to use library for adding actions to items, as the name suggests.
 
-#Dependency Information
+# Dependency Information
 
 You will need to shade and relocate IAL to be able to use it at runtime.
 
@@ -28,7 +28,7 @@ shadowJar {
     relocate 'me.katsumag.itemactionslib', 'somewhere.in.your.project'
 }```
 
-#Example Usage
+# Example Usage
 
 ```java
 final ItemActionManager manager = new ItemActionManager(this);
