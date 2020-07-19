@@ -38,7 +38,7 @@ of ItemActionsLib, use version `1.0`. It should be replace `[VERSION]`.
 
 At first you'll have to create an instance of the class ItemActionManager. This should be done through 
 invoking the static method `ItemActionManager.create(JavaPlugin)`, as shown below. Notice that if you
-try to invoke `ItemActionManager.create(JavaPlugin)` more than once, an exception will be thrown.
+try to invoke `ItemActionManager.create(JavaPlugin)` more than once will throw an exception.
 
 ```java
 class Main extends JavaPlugin {
@@ -76,7 +76,7 @@ You can clear all actions from a specific item by invoking `ActionItem#clearActi
 item.clearActions();
 ```
 
-FIY: All ActionItems and their Actions are being tracked by a UUID which is stored in every ActionItem instance.
+FYI: All ActionItems and their Actions are being tracked by a UUID which is stored in every ActionItem instance.
 
 # Contribute
 
