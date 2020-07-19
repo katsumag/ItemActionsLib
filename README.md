@@ -26,7 +26,8 @@ dependencies {
 
 shadowJar {
     relocate 'me.katsumag.itemactionslib', 'somewhere.in.your.project'
-}```
+}
+```
 
 # Example Usage
 
@@ -35,6 +36,7 @@ final ItemActionManager manager = new ItemActionManager(this);
 
 final Item item = manager.newItem(Material.WOODEN_AXE).addAction(ActionType.RIGHT_CLICK, event -> {
    //TODO something here 
-});```
+});
+```
 
 ItemActionManager#newItem accepts both a Material and an ItemStack. If you want to see all available ActionTypes, you can see them [here.](https://github.com/katsumag/ItemActionsLib/blob/master/src/main/java/me/katsumag/itemactionslib/ActionType.java)
