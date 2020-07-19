@@ -34,7 +34,8 @@ shadowJar {
 ```java
 final ItemActionManager manager = new ItemActionManager(this);
 
-final Item item = manager.newItem(Material.WOODEN_AXE).addAction(ActionType.RIGHT_CLICK, event -> {
+final Item item = manager.newItem(Material.WOODEN_AXE);
+item.addAction(ActionType.RIGHT_CLICK, event -> {
    //TODO something here 
 });
 ```
