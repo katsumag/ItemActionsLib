@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class LeftClickEventListener extends AbstractListener<LeftClickEvent> {
+public final class LeftClickEventListener extends AbstractListener<LeftClickEvent> {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {

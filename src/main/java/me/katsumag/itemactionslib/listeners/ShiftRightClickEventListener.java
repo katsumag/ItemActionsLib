@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class ShiftRightClickEventListener extends AbstractListener<ShiftRightClickEvent> {
+public final class ShiftRightClickEventListener extends AbstractListener<ShiftRightClickEvent> {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {

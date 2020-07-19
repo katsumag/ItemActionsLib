@@ -3,8 +3,6 @@ package me.katsumag.itemactionslib.listeners;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import me.katsumag.itemactionslib.Action;
-import me.katsumag.itemactionslib.ActionType;
-import me.katsumag.itemactionslib.Item;
 import me.katsumag.itemactionslib.Utils;
 import me.katsumag.itemactionslib.event.ListenableEvent;
 import org.bukkit.event.Listener;
@@ -20,19 +18,8 @@ public abstract class AbstractListener<T extends ListenableEvent> implements Lis
         this.actions.put(uuid, action);
     }
 
-    public void addAction(Action<T> action, Item item) {
-        Utils.notNull(item);
-        this.addAction(action, item.getUniqueId());
-    }
-
     public void clearActions(UUID uuid) {
         Utils.notNull(uuid);
         this.actions.removeAll(uuid);
     }
-
-    public void clearActions(Item item) {
-        Utils.notNull(item);
-        this.clearActions(item.getUniqueId());
-    }
-
 }

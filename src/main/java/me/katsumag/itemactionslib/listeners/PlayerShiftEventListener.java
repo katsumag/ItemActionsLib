@@ -4,7 +4,7 @@ import me.katsumag.itemactionslib.event.PlayerShiftEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 
-public class PlayerShiftEventListener extends AbstractListener<PlayerShiftEvent> {
+public final class PlayerShiftEventListener extends AbstractListener<PlayerShiftEvent> {
 
     @EventHandler
     public void onShift(PlayerShiftEvent e) {

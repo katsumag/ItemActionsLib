@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
-public class PlayerSprintEventListener extends AbstractListener<PlayerSprintEvent> {
+public final class PlayerSprintEventListener extends AbstractListener<PlayerSprintEvent> {
 
     @EventHandler
     public void onSprint(PlayerToggleSprintEvent e) {

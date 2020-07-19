@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class RightClickAirEventListener extends AbstractListener<RightClickAirEvent>{
+public final class RightClickAirEventListener extends AbstractListener<RightClickAirEvent>{
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
