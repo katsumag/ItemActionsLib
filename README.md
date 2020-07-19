@@ -2,6 +2,7 @@
 A framework library for Item Actions.
 
 Authors: Katsumag
+
 Contributor: Conclure
 
 ItemActionsLib is a simple to use library for adding actions to items, as the name suggests.
