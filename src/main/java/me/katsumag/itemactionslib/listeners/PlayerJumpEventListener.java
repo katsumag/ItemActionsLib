@@ -6,7 +6,7 @@ import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 
-public class PlayerJumpEventListener extends AbstractListener<PlayerJumpEvent> {
+public final class PlayerJumpEventListener extends AbstractListener<PlayerJumpEvent> {
 
     @EventHandler
     public void onStatisticIncrement(PlayerStatisticIncrementEvent e) {
