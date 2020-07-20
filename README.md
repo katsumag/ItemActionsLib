@@ -7,7 +7,7 @@ Contributor: Conclure
 
 ItemActionsLib is a simple to use library for adding actions to items, as the name suggests.
 
-[![Build Status](https://ci.katsumag.me/buildStatus/icon?job=Build+IAL)](https://ci.katsumag.me/job/Build%20IAL/) ![License](https://img.shields.io/github/license/katsumag/ItemActionsLib?style=plastic)
+[![Build Status](https://ci.katsumag.me/buildStatus/icon?job=Build+IAL)](https://ci.katsumag.me/job/Build%20IAL/) ![License](https://img.shields.io/github/license/katsumag/ItemActionsLib?style=plastic) ![Version](https://img.shields.io/nexus/r/me.katsumag/item-actions-lib?nexusVersion=3&server=https%3A%2F%2Frepo.katsumag.me%2F&style=plastic)
 # Setup
 
 You will need to shade and relocate ItemActionsLib to use it at runtime.
