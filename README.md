@@ -33,7 +33,7 @@ shadowJar {
 ```
 
 An example of `[YOUR PACKAGE]` could be `me.conclure.plugin`. If you want to use latest version
-of ItemActionsLib, use version `1.0`. It should be replace `[VERSION]`.
+of ItemActionsLib, use version `1.0.1`. It should be replace `[VERSION]`.
 
 # Usage
 
