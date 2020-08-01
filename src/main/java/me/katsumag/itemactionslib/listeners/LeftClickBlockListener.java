@@ -13,7 +13,7 @@ public final class LeftClickBlockListener extends AbstractListener<LeftClickBloc
         if (e.hasBlock() && e.getAction() == Action.LEFT_CLICK_BLOCK) {
             LeftClickBlockEvent event = new LeftClickBlockEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach((uuid, action) -> action.perform(event));
+            getActions().forEach((uuid, action) -> action.perform(event));
         }
     }
 }

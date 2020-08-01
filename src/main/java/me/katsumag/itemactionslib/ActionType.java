@@ -3,7 +3,13 @@ package me.katsumag.itemactionslib;
 import me.katsumag.itemactionslib.event.*;
 import me.katsumag.itemactionslib.listeners.*;
 
-public final class ActionType<T extends ListenableEvent> {
+public final class
+
+
+
+
+
+ActionType<T extends ListenableEvent> {
 
     public static final ActionType<ClickEvent> CLICK =
             new ActionType<>(ClickEvent.class, new ClickEventListener());

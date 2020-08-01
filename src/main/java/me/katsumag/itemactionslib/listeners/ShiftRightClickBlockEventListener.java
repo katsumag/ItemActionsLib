@@ -13,7 +13,7 @@ public final class ShiftRightClickBlockEventListener extends AbstractListener<Sh
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             ShiftRightClickBlockEvent event = new ShiftRightClickBlockEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach((uuid, action) -> action.perform(event));
+            getActions().forEach((uuid, action) -> action.perform(event));
         }
     }
 

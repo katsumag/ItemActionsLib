@@ -13,7 +13,7 @@ public final class PlayerSprintEventListener extends AbstractListener<PlayerSpri
 
         PlayerSprintEvent event = new PlayerSprintEvent(e.getPlayer());
         Bukkit.getPluginManager().callEvent(event);
-        actions.forEach((uuid, action) -> action.perform(event));
+        getActions().forEach((uuid, action) -> action.perform(event));
 
     }
 

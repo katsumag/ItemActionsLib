@@ -11,7 +11,7 @@ public final class PlayerShiftEventListener extends AbstractListener<PlayerShift
 
         PlayerShiftEvent event = new PlayerShiftEvent(e.getPlayer());
         Bukkit.getPluginManager().callEvent(event);
-        actions.forEach((uuid, action) -> action.perform(event));
+        getActions().forEach((uuid, action) -> action.perform(event));
 
     }
 

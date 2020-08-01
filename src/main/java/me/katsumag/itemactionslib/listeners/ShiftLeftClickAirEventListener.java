@@ -13,7 +13,7 @@ public final class ShiftLeftClickAirEventListener extends AbstractListener<Shift
         if (e.getAction() == Action.LEFT_CLICK_AIR && e.getPlayer().isSneaking()) {
             ShiftLeftClickAirEvent event = new ShiftLeftClickAirEvent(e.getPlayer());
             Bukkit.getPluginManager().callEvent(event);
-            actions.forEach((uuid, action) -> action.perform(event));
+            getActions().forEach((uuid, action) -> action.perform(event));
         }
     }
 

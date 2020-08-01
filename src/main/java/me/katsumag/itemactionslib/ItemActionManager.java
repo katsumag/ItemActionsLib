@@ -4,11 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import me.katsumag.itemactionslib.event.ListenableEvent;
 import me.katsumag.itemactionslib.listeners.*;
+import me.katsumag.itemactionslib.nbt.ItemNBT;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -44,21 +48,23 @@ public final class ItemActionManager {
      */
     public ActionItem newItem(ItemStack itemStack) {
         Utils.notNull(itemStack);
+        final UUID id = UUID.randomUUID();
+        ItemNBT.setNBTTag(itemStack, "ItemActionsLib", id.toString());
         return new ActionItem() {
 
-            private final UUID uuid = UUID.randomUUID();
+            private final UUID uuid = id;
 
             public <T extends ListenableEvent> ActionItem addAction(ActionType<T> type, Action<T> action) {
-                manager.addAction(type, action, this.uuid);
+                manager.addAction(type, action, this);
                 return this;
             }
 
             public <T extends ListenableEvent> void removeActions(ActionType<T> type) {
-                manager.removeActions(type, this.uuid);
+                manager.removeActions(type, this);
             }
 
             public void clearActions() {
-                manager.clearActions(this.uuid);
+                manager.clearActions(this);
             }
 
             @Override
@@ -84,18 +90,50 @@ public final class ItemActionManager {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, UUID uuid) {
+    private <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, ActionItem item) {
         Utils.notNull(type);
-        ((AbstractListener<T>)this.actionsMap.get(type)).addAction(action, uuid);
+        ((AbstractListener<T>)this.actionsMap.get(type)).addAction(action, item);
     }
 
-    private <T extends ListenableEvent> void removeActions(ActionType<T> type, UUID uuid) {
+    private <T extends ListenableEvent> void removeActions(ActionType<T> type, ActionItem item) {
         Utils.notNull(type);
-        this.actionsMap.get(type).clearActions(uuid);
+        this.actionsMap.get(type).clearActions(item);
     }
 
-    private void clearActions(UUID uuid) {
-        this.actionsMap.values().forEach($ -> $.clearActions(uuid));
+    private void clearActions(ActionItem item) {
+        this.actionsMap.values().forEach($ -> $.clearActions(item));
+    }
+
+    /**
+     *
+     * @param id
+     * @return Optional<ActionItem>, contains the ItemAction if it can find one, or empty if not
+     */
+
+    public Optional<ActionItem> getByUUID(UUID id) {
+
+        for (AbstractListener<?> abstractListener : actionsMap.values()) {
+            for (ActionItem actionItem : abstractListener.getActions().keys()) {
+                if (actionItem.getUniqueId() == id) return Optional.of(actionItem);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     *
+     * @param item
+     * @return Optional<ActionItem>, contains the ItemAction if it can find one, or empty if not
+     */
+
+    public Optional<ActionItem> getByItemStack(ItemStack item) {
+
+        for (AbstractListener<?> abstractListener : actionsMap.values()) {
+            for (ActionItem actionItem : abstractListener.getActions().keys()) {
+                if (actionItem.getUniqueId().equals(UUID.fromString(ItemNBT.getNBTTag(item, "ItemActionsLib")))) return Optional.of(actionItem);
+            }
+        }
+        return Optional.empty();
     }
 
     /**

@@ -11,7 +11,7 @@ public final class ClickEventListener extends AbstractListener<ClickEvent> {
     public void onInteract(PlayerInteractEvent e) {
         ClickEvent event = new ClickEvent(e.getPlayer());
         Bukkit.getPluginManager().callEvent(event);
-        actions.forEach((uuid, action) -> action.perform(event));
+        getActions().forEach((uuid, action) -> action.perform(event));
     }
 
 }
