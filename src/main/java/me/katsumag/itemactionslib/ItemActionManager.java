@@ -109,7 +109,7 @@ public final class ItemActionManager {
                 if (item.getType() == Material.AIR) {
                     return false;
                 }
-                return set.stream().anyMatch(option -> !option.test(itemStack0, item));
+                return set.stream().allMatch(option -> option.test(itemStack0, item));
             }
 
             @Override
