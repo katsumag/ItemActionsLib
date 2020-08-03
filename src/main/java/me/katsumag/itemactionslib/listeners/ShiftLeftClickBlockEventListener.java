@@ -10,10 +10,12 @@ public final class ShiftLeftClickBlockEventListener extends AbstractListener<Shi
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if (!e.hasItem()) {
+            return;
+        }
         if (e.hasBlock() && e.getAction() == Action.LEFT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             ShiftLeftClickBlockEvent event = new ShiftLeftClickBlockEvent(e.getPlayer());
-            Bukkit.getPluginManager().callEvent(event);
-            getActions().forEach((uuid, action) -> action.perform(event));
+            performActions(event, e.getItem());
         }
     }
 

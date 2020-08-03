@@ -10,10 +10,12 @@ public final class ShiftLeftClickEventListener extends AbstractListener<ShiftLef
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if (!e.hasItem()) {
+            return;
+        }
         if (e.getAction() == Action.LEFT_CLICK_AIR && e.getPlayer().isSneaking() || e.getAction() == Action.LEFT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             ShiftLeftClickEvent event = new ShiftLeftClickEvent(e.getPlayer());
-            Bukkit.getPluginManager().callEvent(event);
-            getActions().forEach((uuid, action) -> action.perform(event));
+            performActions(event, e.getItem());
         }
     }
 
