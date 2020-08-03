@@ -109,9 +109,7 @@ public final class ItemActionManager {
                 if (item.getType() == Material.AIR) {
                     return false;
                 }
-                return !itemStack0.isSimilar(item)
-                        || !hasNBTIdentifier()
-                        || ItemNBT.getNBTTag(item, "itemActionKey").equals(key);
+                return set.stream().anyMatch(option -> !option.test(itemStack0, item));
             }
 
             @Override
