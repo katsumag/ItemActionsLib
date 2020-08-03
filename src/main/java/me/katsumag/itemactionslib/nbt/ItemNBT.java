@@ -1,57 +1,105 @@
 package me.katsumag.itemactionslib.nbt;
 
+import me.katsumag.itemactionslib.InitiationException;
+import me.katsumag.itemactionslib.Utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * Class to set / get NBT tags from items
- * @Author Matt - MF-GUI
+ *
+ * @Author Matt - MF-GUI, original author of this class.
+ *
+ * FYI - This class has been heavily modified from MF-GUI by {@Author Conclure}.
  */
 public final class ItemNBT {
 
-    private static Method getStringMethod;
-    private static Method setStringMethod;
-    private static Method hasTagMethod;
-    private static Method getTagMethod;
-    private static Method setTagMethod;
-    private static Method asNMSCopyMethod;
-    private static Method asBukkitCopyMethod;
+    private static final Class<?>
+            CLASS_NMS_NBTTAGCOMPOUND,
+            CLASS_NMS_ITEMSTACK,
+            CLASS_CRAFT_ITEMSTACK;
 
-    private static Constructor<?> nbtCompoundConstructor;
+    private static final Constructor<?>
+            CONSTRUCTOR_NMS_NBTTAGCOMPOUND;
+
+    private static final Method
+            METHOD_GET_STRING,
+            METHOD_SET_STRING,
+            METHOD_HAS_TAG,
+            METHOD_GET_TAG,
+            METHOD_SET_TAG,
+            METHOD_ASNMSCOPY,
+            METHOD_ASBUKKITCOPY;
 
     static {
         try {
-            getStringMethod = Objects.requireNonNull(getNMSClass("NBTTagCompound")).getMethod("getString", String.class);
-            setStringMethod = Objects.requireNonNull(getNMSClass("NBTTagCompound")).getMethod("setString", String.class, String.class);
-            hasTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("hasTag");
-            getTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("getTag");
-            setTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("setTag", getNMSClass("NBTTagCompound"));
-            nbtCompoundConstructor = Objects.requireNonNull(getNMSClass("NBTTagCompound")).getDeclaredConstructor();
-            asNMSCopyMethod = Objects.requireNonNull(getCraftItemStackClass()).getMethod("asNMSCopy", ItemStack.class);
-            asBukkitCopyMethod = Objects.requireNonNull(getCraftItemStackClass()).getMethod("asBukkitCopy", getNMSClass("ItemStack"));
+            CLASS_NMS_NBTTAGCOMPOUND = getNMSClass("NBTTagCompound");
+            CLASS_NMS_ITEMSTACK = getNMSClass("ItemStack");
+            CLASS_CRAFT_ITEMSTACK = getCraftClass("inventory.CraftItemStack");
+
+            CONSTRUCTOR_NMS_NBTTAGCOMPOUND = CLASS_NMS_NBTTAGCOMPOUND.getConstructor();
+
+            METHOD_GET_STRING = CLASS_NMS_NBTTAGCOMPOUND.getMethod("getString", String.class);
+            METHOD_SET_STRING = CLASS_NMS_NBTTAGCOMPOUND.getMethod("setString", String.class, String.class);
+
+            METHOD_HAS_TAG = CLASS_NMS_ITEMSTACK.getMethod("hasTag");
+            METHOD_GET_TAG = CLASS_NMS_ITEMSTACK.getMethod("getTag");
+            METHOD_SET_TAG = CLASS_NMS_ITEMSTACK.getMethod("setTag", CLASS_NMS_NBTTAGCOMPOUND);
+
+            METHOD_ASNMSCOPY = CLASS_CRAFT_ITEMSTACK.getMethod("asNMSCopy", ItemStack.class);
+            METHOD_ASBUKKITCOPY = CLASS_CRAFT_ITEMSTACK.getMethod("asBukkitCopy", CLASS_NMS_ITEMSTACK);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Sets an NBT tag to the an {@link ItemStack}
-     *
-     * @param itemStack The current {@link ItemStack} to be set
-     * @param key       The NBT key to use
-     * @param value     The tag value to set
-     * @return An {@link ItemStack} that has NBT set
-     */
-    public static ItemStack setNBTTag(final ItemStack itemStack, final String key, final String value) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) return itemStack;
+    private ItemNBT() throws InitiationException {
+        throw new InitiationException(ItemNBT.class);
+    }
+
+    private static Class<?> getClass(final String className) {
+        Class<?> clazz;
+        try {
+            clazz = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return clazz;
+    }
+
+    private static Object invokeMethod(Method method, Object object, Object... args) {
+        try {
+            return method.invoke(object, args);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getNBTTag(ItemStack itemStack, String key) {
+        Utils.notNull(ItemStack.class, itemStack);
+        Utils.notNull(String.class, key);
+        if (itemStack.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Material of ItemStack cannot be AIR.");
+        }
 
         Object nmsItemStack = asNMSCopy(itemStack);
-        Object itemCompound = hasTag(nmsItemStack) ? getTag(nmsItemStack) : newNBTTagCompound();
+        Object itemCompound = getNBTCompound(nmsItemStack);
+
+        return getString(itemCompound, key);
+    }
+
+    public static ItemStack setNBTTag(ItemStack itemStack, String key, String value) {
+        Utils.notNull(ItemStack.class, itemStack);
+        Utils.notNull(String.class, key);
+        if (itemStack.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Material of ItemStack cannot be AIR.");
+        }
+
+        Object nmsItemStack = asNMSCopy(itemStack);
+        Object itemCompound = getNBTCompound(nmsItemStack);
 
         setString(itemCompound, key, value);
         setTag(nmsItemStack, itemCompound);
@@ -59,157 +107,51 @@ public final class ItemNBT {
         return asBukkitCopy(nmsItemStack);
     }
 
-    /**
-     * Gets the NBT tag based on a given key
-     *
-     * @param itemStack The {@link ItemStack} to get from
-     * @param key       The key to look for
-     * @return The tag that was stored in the {@link ItemStack}
-     */
-    public static String getNBTTag(final ItemStack itemStack, final String key) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) return "";
-
-        Object nmsItemStack = asNMSCopy(itemStack);
-        Object itemCompound = hasTag(nmsItemStack) ? getTag(nmsItemStack) : newNBTTagCompound();
-
-        return getString(itemCompound, key);
+    private static Object getNBTCompound(Object nmsItemStack) {
+        return hasTag(nmsItemStack) ? getTag(nmsItemStack) : newNBTTagCompound();
     }
 
-    /**
-     * Mimics the itemCompound#setString method
-     *
-     * @param itemCompound The ItemCompound
-     * @param key          The key to add
-     * @param value        The value to add
-     */
-    private static void setString(final Object itemCompound, final String key, final String value) {
-        try {
-            setStringMethod.invoke(itemCompound, key, value);
-        } catch (IllegalAccessException | InvocationTargetException ignored) {
-        }
+    private static void setString(Object nbtTagCompound, String key, String value) {
+        invokeMethod(METHOD_SET_STRING, nbtTagCompound, key, value);
     }
 
-    /**
-     * Mimics the itemCompound#getString method
-     *
-     * @param itemCompound The ItemCompound
-     * @param key          The key to get from
-     * @return A string with the value from the key
-     */
-    private static String getString(final Object itemCompound, final String key) {
-        try {
-            return (String) getStringMethod.invoke(itemCompound, key);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            return null;
-        }
+    private static String getString(Object nbtTagCompound, String key) {
+        return (String) invokeMethod(METHOD_GET_STRING, nbtTagCompound, key);
     }
 
-    /**
-     * Mimics the nmsItemStack#hasTag method
-     *
-     * @param nmsItemStack the NMS ItemStack to check from
-     * @return True or false depending if it has tag or not
-     */
-    private static boolean hasTag(final Object nmsItemStack) {
-        try {
-            return (boolean) hasTagMethod.invoke(nmsItemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            return false;
-        }
+    private static boolean hasTag(Object nmsItemStack) {
+        return (boolean) invokeMethod(METHOD_HAS_TAG, nmsItemStack);
     }
 
-    /**
-     * Mimics the nmsItemStack#getTag method
-     *
-     * @param nmsItemStack The NMS ItemStack to get from
-     * @return The tag compound
-     */
-    private static Object getTag(final Object nmsItemStack) {
-        try {
-            return getTagMethod.invoke(nmsItemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            return null;
-        }
+    private static Object getTag(Object nmsItemStack) {
+        return invokeMethod(METHOD_GET_TAG, nmsItemStack);
     }
 
-    /**
-     * Mimics the nmsItemStack#setTag method
-     *
-     * @param nmsItemStack the NMS ItemStack to set the tag to
-     * @param itemCompound The item compound to set
-     */
-    private static void setTag(final Object nmsItemStack, final Object itemCompound) {
-        try {
-            setTagMethod.invoke(nmsItemStack, itemCompound);
-        } catch (IllegalAccessException | InvocationTargetException ignored) {
-        }
+    private static void setTag(Object nmsItemStack, Object nbtTagCompound) {
+        invokeMethod(METHOD_SET_TAG, nmsItemStack, nbtTagCompound);
     }
 
-    /**
-     * Mimics the new NBTTagCompound instantiation
-     *
-     * @return The new NBTTagCompound
-     */
     private static Object newNBTTagCompound() {
         try {
-            return nbtCompoundConstructor.newInstance();
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            return null;
+            return CONSTRUCTOR_NMS_NBTTAGCOMPOUND.newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    /**
-     * Mimics the CraftItemStack#asNMSCopy method
-     *
-     * @param itemStack The ItemStack to make NMS copy
-     * @return An NMS copy of the ItemStack
-     */
-    private static Object asNMSCopy(final ItemStack itemStack) {
-        try {
-            return asNMSCopyMethod.invoke(null, itemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            return null;
-        }
+    private static Object asNMSCopy(ItemStack itemStack) {
+        return invokeMethod(METHOD_ASNMSCOPY, null, itemStack);
     }
 
-    /**
-     * Mimics the CraftItemStack#asBukkitCopy method
-     *
-     * @param nmsItemStack The NMS ItemStack to turn into {@link ItemStack}
-     * @return The new {@link ItemStack}
-     */
-    private static ItemStack asBukkitCopy(final Object nmsItemStack) {
-        try {
-            return (ItemStack) asBukkitCopyMethod.invoke(null, nmsItemStack);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            return null;
-        }
+    private static ItemStack asBukkitCopy(Object nmsItemStack) {
+        return (ItemStack) invokeMethod(METHOD_ASBUKKITCOPY, null, nmsItemStack);
     }
 
-    /**
-     * Gets the NMS class from class name
-     *
-     * @return The NMS class
-     */
-    private static Class<?> getNMSClass(final String className) {
-        try {
-            return Class.forName("net.minecraft.server." + ServerVersion.NMS_VERSION + "." + className);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
+    private static Class<?> getNMSClass(String className) {
+        return getClass("net.minecraft.server." + ServerVersion.NMS_VERSION + "." + className);
     }
 
-    /**
-     * Gets the NMS craft {@link ItemStack} class from class name
-     *
-     * @return The NMS craft {@link ItemStack} class
-     */
-    private static Class<?> getCraftItemStackClass() {
-        try {
-            return Class.forName("org.bukkit.craftbukkit." + ServerVersion.NMS_VERSION + ".inventory.CraftItemStack");
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
+    private static Class<?> getCraftClass(String className) {
+        return getClass("org.bukkit.craftbukkit." + ServerVersion.NMS_VERSION + "." + className);
     }
-
 }

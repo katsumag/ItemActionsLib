@@ -1,8 +1,14 @@
 package me.katsumag.itemactionslib;
 
 import me.katsumag.itemactionslib.event.ListenableEvent;
+import me.katsumag.itemactionslib.nbt.ItemNBT;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -32,8 +38,13 @@ public interface ActionItem extends Supplier<ItemStack> {
      */
     void clearActions();
 
-    /**
-     * @return A UUID for this item instance.
-     */
-    UUID getUniqueId();
+    Set<IdentifierOption> getIdentifierOptions();
+
+    boolean isSimilar(ActionItem item);
+
+    boolean isSimilar(ItemStack item);
+
+    boolean hasNBTIdentifier();
+
+    ItemKey getKey();
 }

@@ -10,11 +10,12 @@ public final class LeftClickAirEventListener extends AbstractListener<LeftClickA
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if (!e.hasItem()) {
+            return;
+        }
         if (e.getAction() == Action.LEFT_CLICK_AIR) {
             LeftClickAirEvent event = new LeftClickAirEvent(e.getPlayer());
-            Bukkit.getPluginManager().callEvent(event);
-            getActions().forEach((uuid, action) -> action.perform(event));
+            performActions(event, e.getItem());
         }
     }
-
 }

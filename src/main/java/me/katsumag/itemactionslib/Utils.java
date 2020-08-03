@@ -2,16 +2,19 @@ package me.katsumag.itemactionslib;
 
 import java.util.Objects;
 
-public class Utils {
+public final class Utils {
 
-    public static <T> void notNull(T t) {
-        Objects.requireNonNull(t, "Parameter " + t.getClass().getTypeName() + " may not be null.");
+    private Utils() throws InitiationException {
+        throw new InitiationException(Utils.class);
     }
 
-    public static <T> void notNull(T t, T... ts) {
-        Utils.notNull(t);
-        for (T $ : ts) {
-            Utils.notNull($);
+    public static <T> void notNull(Class<T> clazz, T t) {
+        Objects.requireNonNull(t, "Parameter " + clazz.getTypeName() + " may not be null.");
+    }
+
+    public static <T> void notNull(Class<T> clazz, T... t) {
+        for (T tt : t) {
+            Objects.requireNonNull(tt, "Parameter " + clazz.getTypeName() + " may not be null.");
         }
     }
 

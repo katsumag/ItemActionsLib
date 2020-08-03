@@ -3,7 +3,8 @@ package me.katsumag.itemactionslib.listeners;
 import me.katsumag.itemactionslib.event.PlayerShiftEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
-
+// Does not relate involve an ItemStack
+@Deprecated
 public final class PlayerShiftEventListener extends AbstractListener<PlayerShiftEvent> {
 
     @EventHandler

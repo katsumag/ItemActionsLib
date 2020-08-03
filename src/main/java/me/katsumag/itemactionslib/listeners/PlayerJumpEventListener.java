@@ -5,7 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
-
+// Does not relate involve an ItemStack
+@Deprecated
 public final class PlayerJumpEventListener extends AbstractListener<PlayerJumpEvent> {
 
     @EventHandler

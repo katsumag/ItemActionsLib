@@ -4,7 +4,8 @@ import me.katsumag.itemactionslib.event.PlayerSprintEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
-
+// Does not relate involve an ItemStack
+@Deprecated
 public final class PlayerSprintEventListener extends AbstractListener<PlayerSprintEvent> {
 
     @EventHandler

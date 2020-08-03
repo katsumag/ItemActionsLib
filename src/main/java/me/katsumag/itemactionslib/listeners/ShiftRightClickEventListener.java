@@ -10,10 +10,12 @@ public final class ShiftRightClickEventListener extends AbstractListener<ShiftRi
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
+        if (!e.hasItem()) {
+            return;
+        }
         if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().isSneaking() || e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().isSneaking()) {
             ShiftRightClickEvent event = new ShiftRightClickEvent(e.getPlayer());
-            Bukkit.getPluginManager().callEvent(event);
-            getActions().forEach((uuid, action) -> action.perform(event));
+            performActions(event, e.getItem());
         }
     }
 

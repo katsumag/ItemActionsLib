@@ -3,13 +3,7 @@ package me.katsumag.itemactionslib;
 import me.katsumag.itemactionslib.event.*;
 import me.katsumag.itemactionslib.listeners.*;
 
-public final class
-
-
-
-
-
-ActionType<T extends ListenableEvent> {
+public final class ActionType<T extends ListenableEvent> {
 
     public static final ActionType<ClickEvent> CLICK =
             new ActionType<>(ClickEvent.class, new ClickEventListener());
@@ -50,15 +44,19 @@ ActionType<T extends ListenableEvent> {
     public static final ActionType<ShiftRightClickBlockEvent> SHIFT_RIGHT_CLICK_BLOCK =
             new ActionType<>(ShiftRightClickBlockEvent.class, new ShiftRightClickBlockEventListener());
 
+    @Deprecated
     public static final ActionType<PlayerShiftEvent> PLAYER_SHIFT =
             new ActionType<>(PlayerShiftEvent.class, new PlayerShiftEventListener());
 
+    @Deprecated
     public static final ActionType<PlayerJumpEvent> PLAYER_JUMP =
             new ActionType<>(PlayerJumpEvent.class, new PlayerJumpEventListener());
 
+    @Deprecated
     public static final ActionType<PlayerShiftJumpEvent> PLAYER_SHIFT_JUMP =
             new ActionType<>(PlayerShiftJumpEvent.class, new PlayerShiftJumpEventListener());
 
+    @Deprecated
     public static final ActionType<PlayerSprintEvent> PLAYER_SPRINT =
             new ActionType<>(PlayerSprintEvent.class, new PlayerSprintEventListener());
 
