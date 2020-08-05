@@ -3,6 +3,7 @@ package me.katsumag.itemactionslib.event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ShiftRightClickBlockEvent extends PlayerEvent implements ListenableEvent {
 
@@ -13,6 +14,7 @@ public class ShiftRightClickBlockEvent extends PlayerEvent implements Listenable
     }
 
     @Override
+    @NotNull
     public HandlerList getHandlers() {
         return HANDLER_LIST;
     }

@@ -3,6 +3,8 @@ package me.katsumag.itemactionslib.event;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
+import org.jetbrains.annotations.NotNull;
+
 // Does not relate involve an ItemStack
 @Deprecated
 public class PlayerShiftJumpEvent extends PlayerEvent implements ListenableEvent {
@@ -14,6 +16,7 @@ public class PlayerShiftJumpEvent extends PlayerEvent implements ListenableEvent
     }
 
     @Override
+    @NotNull
     public HandlerList getHandlers() {
         return HANDLER_LIST;
     }
