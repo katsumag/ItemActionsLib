@@ -33,25 +33,25 @@ shadowJar {
 ```
 
 An example of `[YOUR PACKAGE]` could be `me.conclure.plugin`. If you want to use latest version
-of ItemActionsLib, use version `1.0.1`. It should be replace `[VERSION]`.
+of ItemActionsLib, use version `2.0`. It should be replace `[VERSION]`.
 
 # Usage
 
 At first you'll have to create an instance of the class ItemActionManager. This should be done through 
-invoking the static method `ItemActionManager.create(JavaPlugin)`, as shown below. Notice that if you
-try to invoke `ItemActionManager.create(JavaPlugin)` more than once will throw an exception.
+invoking the class' constructor `ItemActionManager()`, as shown below. Notice that if you
+try to invoke it more than once it will throw an exception.
 
 ```java
 class Main extends JavaPlugin {
    @Override
    public void onEnable() {
-      ItemActionManager itemActionManager = ItemActionManager.create(this);
+      ItemActionManager itemActionManager = ItemActionManager();
    }
 }
 ```
 
-Now when you have an instance of the manager class you may call `ItemActionManager#newItem(ItemStack)`
-or `ItemActionManager#newItem(Material)`. This will create a new ActionItem instance for you. To add
+Now when you have an instance of the manager class you may call `ItemActionManager#newItem(ItemKey, ItemStack, IdentifierOption... options)`
+or `ItemActionManager#newItem(ItemKey, Material, IdentifierOption... options)`. This will create a new ActionItem instance for you. To add
 an Action to this ActionItem you may invoke `ActionItem#addAction(ActionType, Action)`. The method
 takes an ActionType and and Action. The Action parameter represents a consumer and a lambda expression
 or a method reference may be used. All current possible ActionTypes can be found 
@@ -59,10 +59,26 @@ or a method reference may be used. All current possible ActionTypes can be found
 An example is also shown below.
 
 ```java
-ActionItem item = itemActionManager.newItem(Material.DIRT);
-item.addAction(ActionType.CLICK, action -> {
-   //TODO your code
-});
+public class Main extends JavaPlugin {
+
+    private final ItemActionManager itemActionManager = new ItemActionManager();
+    private ActionItem item;
+
+    @Override
+    public void onEnable() {
+        this.itemActionManager.newItem(new ItemKey("IALExample"), Material.APPLE, IdentifierOption.COMPARE_NBT).ifPresent(actionItem -> this.item = actionItem);
+        this.item.addAction(ActionType.LEFT_CLICK, event -> event.getPlayer().setGameMode(GameMode.CREATIVE));
+    }
+
+    @Override
+    public void onDisable() {
+        this.item.removeActions(ActionType.LEFT_CLICK);
+    }
+
+    public ItemActionManager getItemActionManager() {
+        return itemActionManager;
+    }
+}
 ```
 
 If you wish to remove all actions for a specific ActionType, you may invoke `ActionItem#removeActions(ActionType)`.
@@ -76,8 +92,6 @@ You can clear all actions from a specific item by invoking `ActionItem#clearActi
 ```java
 item.clearActions();
 ```
-
-FYI: All ActionItems and their Actions are being tracked by a UUID which is stored in every ActionItem instance.
 
 # Contribute
 
