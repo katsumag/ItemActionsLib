@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'me.katsumag'
-version = '1.0'
+version = '2.0'
 
 java {
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,5 +35,28 @@ processResources {
         expand('name': name,
                 'version': version,
                 'main': 'me.katsumag.itemactionslib.ItemActionsLib')
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'me.katsumag'
+            artifactId = 'item-actions-lib'
+            version = '2.0'
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://repo.katsumag.me/repository/maven-releases"
+            def snapshotsRepoUrl = "https://repo.katsumag.me/repository/maven-snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username System.env["MAVEN_USER"]
+                password System.env["MAVEN_PASSWORD"]
+            }
+        }
     }
 }
