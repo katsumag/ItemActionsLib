@@ -1,8 +1,6 @@
 package me.conclure.example;
 
-import me.katsumag.itemactionslib.ActionItem;
-import me.katsumag.itemactionslib.ActionType;
-import me.katsumag.itemactionslib.ItemActionManager;
+import me.katsumag.itemactionslib.*;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,8 +11,8 @@ public class Main extends JavaPlugin {
     private final ActionItem item;
 
     public Main() {
-        this.itemActionManager = ItemActionManager.create(this);
-        this.item = this.itemActionManager.newItem(Material.APPLE);
+        this.itemActionManager = new ItemActionManager();
+        this.item = this.itemActionManager.newItem(new ItemKey("IALExample"), Material.APPLE, IdentifierOption.COMPARE_NBT).get();
     }
 
     @Override

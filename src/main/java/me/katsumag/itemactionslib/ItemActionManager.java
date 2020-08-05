@@ -24,7 +24,11 @@ public final class ItemActionManager {
 
     private static boolean isAlreadyInvoked = false;
 
-    private ItemActionManager() {
+    /**
+     * Creates a new instance of ItemActionManager - will throw an {@link IllegalStateException} if you have already initialised it.
+     */
+
+    public ItemActionManager() {
         if (isAlreadyInvoked) throw new IllegalStateException("ItemActionManager has already been invoked.");
         else isAlreadyInvoked = true;
 
@@ -42,8 +46,12 @@ public final class ItemActionManager {
     /**
      * Creates a new instance of an ActionItem.
      *
-     * @param itemStack - ItemStack this ActionItem should be based of.
-     * @return New instance of an ActionItem.
+     * @param itemKey Unique ItemKey that should represent this ActionItem.
+     * @param itemStack ItemStack this ActionItem should be based off.
+     * @param option IdentifierOption to be used.
+     * @param options IdentifierOptions to be used.
+     * @return Optional<ActionItem> - contains the new ActionItem if the key isn't registered, or empty if it is.
+     *
      */
     public Optional<ActionItem> newItem(ItemKey itemKey, ItemStack itemStack, IdentifierOption option, IdentifierOption... options) {
         Utils.notNull(ItemKey.class, itemKey);
@@ -151,13 +159,23 @@ public final class ItemActionManager {
     /**
      * Creates a new instance of an ActionItem.
      *
-     * @param material - Material this ActionItem should be based of.
-     * @return New instance of an ActionItem.
+     * @param itemKey Unique ItemKey that should represent this ActionItem.
+     * @param material Material this ActionItem should be based off.
+     * @param option IdentifierOption to be used.
+     * @param options IdentifierOptions to be used.
+     * @return Optional<ActionItem> - contains the new ActionItem if the key isn't registered, or empty if it is.
+     *
      */
     public Optional<ActionItem> newItem(ItemKey itemKey, Material material, IdentifierOption option, IdentifierOption... options) {
         Utils.notNull(Material.class, material);
-        return this.newItem(itemKey, material, option, options);
+        return this.newItem(itemKey, new ItemStack(material), option, options);
     }
+
+    /**
+     *
+     * @param itemKey The ItemKey to check.
+     * @return boolean If the itemKey is registered to an item.
+     */
 
     public boolean hasItemKey(ItemKey itemKey) {
         if (itemKey == null) {
@@ -166,6 +184,12 @@ public final class ItemActionManager {
         Utils.notNull(ItemKey.class, itemKey);
         return itemMap.containsKey(itemKey);
     }
+
+    /**
+     *
+     * @param itemKey The ItemKey to remove by.
+     * @return boolean If the key (and subsequently its item) was removed.
+     */
 
     public boolean removeItem(ItemKey itemKey) {
         if (itemKey == null) {
@@ -178,6 +202,11 @@ public final class ItemActionManager {
         return true;
     }
 
+    /**
+     * @param type The ActionType to trigger the action.
+     * @param action The actual action to be ran.
+     * @param itemKey the ItemKey for the item to add the action to.
+     */
     @SuppressWarnings("unchecked")
     private <T extends ListenableEvent> void addAction(ActionType<T> type, Action<T> action, ItemKey itemKey) {
         Utils.notNull(ActionType.class, type);
@@ -193,6 +222,10 @@ public final class ItemActionManager {
         }
     }
 
+    /**
+     * @param type The ActionType to remove
+     * @param itemKey The ItemKey for the item to remove the actions from.
+     */
     private <T extends ListenableEvent> void removeActions(ActionType<T> type, ItemKey itemKey) {
         Utils.notNull(ActionType.class, type);
         Utils.notNull(ItemKey.class, itemKey);
@@ -203,6 +236,10 @@ public final class ItemActionManager {
         actionMap.get(type).clearActions(item);
     }
 
+    /**
+     *
+     * @param itemKey The ItemKey for the item to remove the actions from.
+     */
     private void clearActions(ItemKey itemKey) {
         Utils.notNull(ItemKey.class, itemKey);
         ActionItem item = itemMap.get(itemKey);
@@ -212,43 +249,23 @@ public final class ItemActionManager {
         actionMap.values().forEach($ -> $.clearActions(item));
     }
 
+    /**
+     *
+     * @param itemKey The ItemKey corresponding to the ActionItem to fetch.
+     * @return An Optional - contains the ActionItem if the key has an item, or null if not.
+     */
     public Optional<ActionItem> getByKey(ItemKey itemKey) {
         Utils.notNull(ItemKey.class, itemKey);
         return Optional.ofNullable(itemMap.get(itemKey));
     }
 
+    /**
+     *
+     * @param key The String value of an ItemKey corresponding to the ActionItem to fetch.
+     * @return An Optional - contains the ActionItem if the key has an item, or null if not.
+     */
     public Optional<ActionItem> getByStringKey(String key) {
         Utils.notNull(String.class, key);
-        return Optional.ofNullable(itemMap.get(ItemKey.get(key)));
-    }
-
-    /*
-    public Optional<ActionItem> getByUUID(UUID id) {
-
-        for (AbstractListener<?> abstractListener : actionMap.values()) {
-            for (ActionItem actionItem : abstractListener.getActions().keys()) {
-                if (actionItem.getUniqueId() == id) return Optional.of(actionItem);
-            }
-        }
-        return Optional.empty();
-    }
-
-    public Optional<ActionItem> getByItemStack(ItemStack item) {
-
-        for (AbstractListener<?> abstractListener : actionMap.values()) {
-            for (ActionItem actionItem : abstractListener.getActions().keys()) {
-                if (actionItem.getUniqueId().equals(UUID.fromString(ItemNBT.getNBTTag(item, "ItemActionsLib")))) return Optional.of(actionItem);
-            }
-        }
-        return Optional.empty();
-    }*/
-
-    /**
-     * Creates a new instance of ItemActionManager.
-     *
-     * @return New instance of ItemActionManager.
-     */
-    public static ItemActionManager create() {
-        return new ItemActionManager();
+        return Optional.ofNullable(itemMap.get(new ItemKey(key)));
     }
 }

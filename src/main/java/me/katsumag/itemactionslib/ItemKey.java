@@ -8,7 +8,7 @@ public final class ItemKey {
 
     private final String key;
 
-    private ItemKey(String key) {
+    public ItemKey(String key) {
         Utils.notNull(String.class, key);
         if (key.isEmpty()) {
             throw new IllegalArgumentException("Key should not be empty.");
@@ -44,9 +44,5 @@ public final class ItemKey {
     @Override
     public String toString() {
         return key;
-    }
-
-    public static ItemKey get(String key) {
-        return new ItemKey(key);
     }
 }
